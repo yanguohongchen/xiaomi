@@ -17,7 +17,7 @@ public class ResponseHandlerTest {
 
 		 CloseableHttpClient httpclient = HttpClients.createDefault();
 	        try {
-	            HttpGet httpget = new HttpGet("http://127.0.0.1:8080/hadoop_result_info");
+	            HttpGet httpget = new HttpGet("http://order.mi.com/site/login?ac=1");
 
 	            System.out.println("Executing request " + httpget.getRequestLine());
 
