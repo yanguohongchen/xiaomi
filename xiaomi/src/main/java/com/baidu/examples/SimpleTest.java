@@ -21,7 +21,7 @@ public class SimpleTest {
 			IOException {
 		
 		CloseableHttpClient httpclient = HttpClients.createDefault();
-		HttpGet httpGet = new HttpGet("http://127.0.0.1:8080/hadoop_result_info");
+		HttpGet httpGet = new HttpGet("http://order.mi.com/site/login?ac=1");
 		CloseableHttpResponse response = httpclient.execute(httpGet);
 		try{
 			System.out.println(response.getStatusLine());

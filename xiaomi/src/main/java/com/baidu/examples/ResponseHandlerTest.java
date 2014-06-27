@@ -38,6 +38,7 @@ public class ResponseHandlerTest {
 	            };
 	            String responseBody = httpclient.execute(httpget, responseHandler);
 	            System.out.println("----------------------------------------");
+	            
 	            System.out.println(responseBody);
 	        } finally {
 	            httpclient.close();
