@@ -47,46 +47,46 @@ public class TestClientFormLogin {
 				response1.close();
 			}
 
-			// while(true){
+			while (true) {
 
-			NameValuePair nameValuePair = new BasicNameValuePair("msgid", "644");
-			NameValuePair nameValuePair2 = new BasicNameValuePair("content", "周周我爱你");
-			List<NameValuePair> valuePairs = new ArrayList<NameValuePair>();
-			valuePairs.add(nameValuePair);
-			valuePairs.add(nameValuePair2);
-			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(valuePairs, "utf-8");
+				NameValuePair nameValuePair = new BasicNameValuePair("msgid", "644");
+				NameValuePair nameValuePair2 = new BasicNameValuePair("content", "周琴，我爱你，叫你们跟我得瑟！");
+				List<NameValuePair> valuePairs = new ArrayList<NameValuePair>();
+				valuePairs.add(nameValuePair);
+				valuePairs.add(nameValuePair2);
+				UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(valuePairs, "utf-8");
 
-			HttpUriRequest login = RequestBuilder.post().setUri(new URI("http://love.91.com/index.php?c=index&a=addcomment")).setEntity(formEntity).build();
-			CloseableHttpResponse response2 = httpclient.execute(login);
-			Header[] heads = response2.getAllHeaders();
-			System.out.println("--------------------------");
-			System.out.println("回传值头信息：");
-			for (Header head : heads) {
-				System.out.println(head);
-			}
-
-			System.out.println("--------------------------");
-			try {
-				HttpEntity entity = response2.getEntity();
-
-				System.out.println("Login form get: " + response2.getStatusLine());
-				System.out.println(EntityUtils.toString(entity));
-				EntityUtils.consume(entity);
-				System.out.println("Post logon cookies:");
-				List<Cookie> cookies = cookieStore.getCookies();
-				if (cookies.isEmpty()) {
-					System.out.println("None");
-				} else {
-					for (int i = 0; i < cookies.size(); i++) {
-						System.out.println("- " + cookies.get(i).toString());
-					}
+				HttpUriRequest login = RequestBuilder.post().setUri(new URI("http://love.91.com/index.php?c=index&a=addcomment")).setEntity(formEntity).build();
+				CloseableHttpResponse response2 = httpclient.execute(login);
+				Header[] heads = response2.getAllHeaders();
+				System.out.println("--------------------------");
+				System.out.println("回传值头信息：");
+				for (Header head : heads) {
+					System.out.println(head);
 				}
 
-			} finally {
-				response2.close();
+				System.out.println("--------------------------");
+				try {
+					HttpEntity entity = response2.getEntity();
+
+					System.out.println("Login form get: " + response2.getStatusLine());
+					System.out.println(EntityUtils.toString(entity));
+					EntityUtils.consume(entity);
+					System.out.println("Post logon cookies:");
+					List<Cookie> cookies = cookieStore.getCookies();
+					if (cookies.isEmpty()) {
+						System.out.println("None");
+					} else {
+						for (int i = 0; i < cookies.size(); i++) {
+							System.out.println("- " + cookies.get(i).toString());
+						}
+					}
+
+				} finally {
+					response2.close();
+				}
+				Thread.sleep(1000 * 15);
 			}
-			// Thread.sleep(1000*15);
-			// }
 
 		} finally {
 			httpclient.close();
