@@ -22,57 +22,19 @@ import org.apache.http.util.EntityUtils;
 public class TestClientFormLogin {
 
 	public static void main(String[] args) throws Exception {
-		BasicCookieStore cookieStore = new BasicCookieStore();
-		CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
-		try {
-			HttpGet httpget = new HttpGet("http://love.91.com/index.php?c=index&a=detail&meeid=644");
-			CloseableHttpResponse response1 = httpclient.execute(httpget);
+			
+			BasicCookieStore cookieStore = new BasicCookieStore();
+			CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
 			try {
-				HttpEntity entity = response1.getEntity();
-
-				System.out.println("Login form get: " + response1.getStatusLine());
-				EntityUtils.consume(entity);
-
-				System.out.println("Initial set of cookies:");
-				List<Cookie> cookies = cookieStore.getCookies();
-				if (cookies.isEmpty()) {
-					System.out.println("None");
-				} else {
-					for (int i = 0; i < cookies.size(); i++) {
-						System.out.println("- " + cookies.get(i).toString());
-					}
-				}
-
-			} finally {
-				response1.close();
-			}
-
-			while (true) {
-
-				NameValuePair nameValuePair = new BasicNameValuePair("msgid", "644");
-				NameValuePair nameValuePair2 = new BasicNameValuePair("content", "周琴，我爱你，叫你们跟我得瑟！");
-				List<NameValuePair> valuePairs = new ArrayList<NameValuePair>();
-				valuePairs.add(nameValuePair);
-				valuePairs.add(nameValuePair2);
-				UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(valuePairs, "utf-8");
-
-				HttpUriRequest login = RequestBuilder.post().setUri(new URI("http://love.91.com/index.php?c=index&a=addcomment")).setEntity(formEntity).build();
-				CloseableHttpResponse response2 = httpclient.execute(login);
-				Header[] heads = response2.getAllHeaders();
-				System.out.println("--------------------------");
-				System.out.println("回传值头信息：");
-				for (Header head : heads) {
-					System.out.println(head);
-				}
-
-				System.out.println("--------------------------");
+				HttpGet httpget = new HttpGet("http://love.91.com/detail/741");
+				CloseableHttpResponse response1 = httpclient.execute(httpget);
 				try {
-					HttpEntity entity = response2.getEntity();
-
-					System.out.println("Login form get: " + response2.getStatusLine());
-					System.out.println(EntityUtils.toString(entity));
+					HttpEntity entity = response1.getEntity();
+					
+					System.out.println("Login form get: " + response1.getStatusLine());
 					EntityUtils.consume(entity);
-					System.out.println("Post logon cookies:");
+					
+					System.out.println("Initial set of cookies:");
 					List<Cookie> cookies = cookieStore.getCookies();
 					if (cookies.isEmpty()) {
 						System.out.println("None");
@@ -81,15 +43,51 @@ public class TestClientFormLogin {
 							System.out.println("- " + cookies.get(i).toString());
 						}
 					}
-
+					
 				} finally {
-					response2.close();
+					response1.close();
 				}
-				Thread.sleep(1000 * 15);
+				
+					
+					NameValuePair nameValuePair = new BasicNameValuePair("id", "741");
+					NameValuePair nameValuePair2 = new BasicNameValuePair("content", "@土豪。求冰桶表演！ ");
+					List<NameValuePair> valuePairs = new ArrayList<NameValuePair>();
+					valuePairs.add(nameValuePair);
+					valuePairs.add(nameValuePair2);
+					UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(valuePairs, "utf-8");
+					
+					HttpUriRequest login = RequestBuilder.post().setUri(new URI("http://love.91.com/addComment")).setEntity(formEntity).build();
+					CloseableHttpResponse response2 = httpclient.execute(login);
+					Header[] heads = response2.getAllHeaders();
+					System.out.println("--------------------------");
+					System.out.println("回传值头信息：");
+					for (Header head : heads) {
+						System.out.println(head);
+					}
+					
+					System.out.println("--------------------------");
+					try {
+						HttpEntity entity = response2.getEntity();
+						
+						System.out.println("Login form get: " + response2.getStatusLine());
+						System.out.println(EntityUtils.toString(entity));
+						EntityUtils.consume(entity);
+						System.out.println("Post logon cookies:");
+						List<Cookie> cookies = cookieStore.getCookies();
+						if (cookies.isEmpty()) {
+							System.out.println("None");
+						} else {
+							for (int i = 0; i < cookies.size(); i++) {
+								System.out.println("- " + cookies.get(i).toString());
+							}
+						}
+						
+					} finally {
+						response2.close();
+					}
+				
+			} finally {
+				httpclient.close();
 			}
-
-		} finally {
-			httpclient.close();
 		}
-	}
 }
